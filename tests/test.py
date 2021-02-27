@@ -1,0 +1,3 @@
+import test_SMA_device
+import test_SMA_SunnyBoy
+import test_SMA_StorageBoy

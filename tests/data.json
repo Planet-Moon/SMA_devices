@@ -1,0 +1,59 @@
+{
+    "clients": {
+        "1215209028": {
+            "firstName": "Wolfram",
+            "lastName": "Schroeder",
+            "nightModeEnd": "06:00:00",
+            "nightModeStart": "23:00:00",
+            "nightTime": false,
+            "shower": {
+                "ignoreNight": false,
+                "modbusRegisterName": "TSP.oben2",
+                "nextNotifyTime": "2020-12-18 01:43:10.669913",
+                "notify": true,
+                "notifyAllowed": true,
+                "notifyInterval": "4:00:00",
+                "notifyMessage": "Safe to shower!\n",
+                "notifyTemperature": 52.0
+            },
+            "timeAdded": 1607459924
+        },
+        "1489906707": {
+            "firstName": "Ben",
+            "lastName": "",
+            "nightModeEnd": "06:00:00",
+            "nightModeStart": "23:00:00",
+            "nightTime": false,
+            "shower": {
+                "ignoreNight": false,
+                "modbusRegisterName": "TSP.oben2",
+                "nextNotifyTime": "2020-12-18 01:43:45.055076",
+                "notify": true,
+                "notifyAllowed": true,
+                "notifyInterval": "4:00:00",
+                "notifyMessage": "Safe to shower!\n",
+                "notifyTemperature": 50
+            },
+            "timeAdded": 1607545279
+        },
+        "419394316": {
+            "firstName": "Andi",
+            "lastName": "Schro",
+            "nightModeEnd": "06:00:00",
+            "nightModeStart": "23:00:00",
+            "nightTime": false,
+            "shower": {
+                "ignoreNight": false,
+                "modbusRegisterName": "TSP.oben2",
+                "nextNotifyTime": "2020-12-16 23:44:00.555397",
+                "notify": true,
+                "notifyAllowed": true,
+                "notifyInterval": "02:00:00",
+                "notifyMessage": "Safe to shower!",
+                "notifyTemperature": 50.0
+            },
+            "timeAdded": 1607382852
+        }
+    },
+    "fileName": "data.json"
+}
