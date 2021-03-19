@@ -3,6 +3,8 @@ from Modbus import modbus_device
 import TypeConversion as TC
 import logging
 
+logger = logging.getLogger(__name__)
+
 class SMA_device(modbus_device):
     def __init__(self, ipAddress:str):
         self.serialnumber = 0
@@ -19,7 +21,7 @@ class SMA_device(modbus_device):
         try:
             self.get_data("all")
         except Exception as e:
-            logging.error("Error - Initialisation of "+self.ipAddress+" failed!, "+str(e))
+            logger.error("Error - Initialisation of "+self.ipAddress+" failed!, "+str(e))
         pass
 
     def _Init_Modbus_Registers(self):
