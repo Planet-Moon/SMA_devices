@@ -6,7 +6,13 @@ import logging
 logger = logging.getLogger(__name__)
 
 class SMA_device(modbus_device):
-    def __init__(self, ipAddress:str):
+    def __init__(self, ipAddress:str, port:str=""):
+        """Generic SMA inverter class
+
+        Args:
+            ipAddress (str): ipAddress for TCP Modbus
+            port (str, optional): port. Defaults to 502.
+        """
         self.serialnumber = 0
         self.susyID = 0
         self.UnitID = 1
@@ -14,7 +20,8 @@ class SMA_device(modbus_device):
         self.timeZone = 0
         self.error = 0
         self.ipAddress = ipAddress
-        super().__init__(ipAddress)
+        self.port = port
+        super().__init__(ipAddress,port)
         self.modbus_read_all = modbus_device.read_all
         self._Init_Modbus_Registers()
 
