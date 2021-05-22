@@ -160,6 +160,15 @@ class BatteryManager:
         for i in inverters:
             self.addInverter(i)
 
+        # test if all are working
+        self.power
+        self.soc
+        self.present_discharge
+        self.present_charge
+        self.charge
+        self.total_capacity
+        self.charge_missing
+
     @property
     def inverters(self) -> list:
         return self._inverters
