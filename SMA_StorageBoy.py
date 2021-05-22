@@ -1,8 +1,14 @@
 from SMA_device import SMA_device
 
 class SMA_StorageBoy(SMA_device):
-    def __init__(self, ipAddress:str):
-        super().__init__(ipAddress)
+    def __init__(self, ipAddress:str,port:str=""):
+        """SMA Battery inverter class
+
+        Args:
+            ipAddress (str): ipAddress of battery inverter
+            port (str, optional): port. Defaults to 502.
+        """
+        super().__init__(ipAddress,port)
         self._add_Modbus_registers()
 
     def _add_Modbus_registers(self):
