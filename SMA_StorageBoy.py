@@ -183,7 +183,13 @@ class Battery_manager:
             TypeError: When inverter is not in the tuple of supported inverters
         """
         if isinstance(inverter,self.supported_inverters):
-            self._inverters.append(inverter)
+            class InverterModel:
+                def __init__(self,inverter,needed_power=0,available_power=0):
+                    self.device = inverter
+                    self.needed_power = needed_power
+                    self.available_power = available_power
+
+            self._inverters.append(InverterModel(inverter))
         else:
             raise TypeError("Inverter not supported")
 
@@ -197,10 +203,14 @@ class Battery_manager:
         needed_power = 0
         available_power = 0
         for i in self._inverters:
-            if i.AktuellerBatterieladezustand < 65:
-                needed_power += i.maxChargePower
-            if i.AktuellerBatterieladezustand > 85:
-                available_power += 2000
+            if i.device.AktuellerBatterieladezustand < 65:
+                i.needed_power = i.device.maxChargePower
+                i.available_power = 0
+            if i.device.AktuellerBatterieladezustand > 85:
+                i.needed_power = 0
+                i.available_power = 2000
+            needed_power += i.needed_power
+            available_power += i.available_power
         if needed_power > 0:
             return needed_power *-1
         else:
@@ -215,7 +225,7 @@ class Battery_manager:
         """
         _soc = 0
         for i in self._inverters:
-            _soc += i.AktuellerBatterieladezustand
+            _soc += i.device.AktuellerBatterieladezustand
         return _soc/len(self._inverters)
 
     @property
@@ -227,7 +237,7 @@ class Battery_manager:
         """
         _present_discharge = 0
         for i in self._inverters:
-            _present_discharge += i.Batterieentladung
+            _present_discharge += i.device.Batterieentladung
         return _present_discharge
 
     @property
@@ -239,7 +249,7 @@ class Battery_manager:
         """
         _present_charge = 0
         for i in self._inverters:
-            _present_charge += i.Batterieladung
+            _present_charge += i.device.Batterieladung  # ! BUG
         return _present_charge
 
     @property
@@ -251,7 +261,7 @@ class Battery_manager:
         """
         _charge = 0
         for i in self._inverters:
-            _charge += i.Batterieladung
+            _charge += i.device.Batterieladung # ! BUG
         return _charge
 
     @property
@@ -263,7 +273,7 @@ class Battery_manager:
         """
         _cap = 0
         for i in self._inverters:
-            _cap += i.nomCapacity
+            _cap += i.device.nomCapacity
         return _cap
 
     @property
@@ -275,5 +285,5 @@ class Battery_manager:
         """
         _charge_missing = 0
         for i in self._inverters:
-            _charge_missing += i.nomCapacity - i.MomentaneBatterieladung
+            _charge_missing += i.device.nomCapacity - i.device.Batterieladung  # ! BUG
         return _charge_missing
