@@ -153,7 +153,7 @@ class SMA_StorageBoy(SMA_device):
     def maxDischargePower(self):
         return self.get_data("maxDischargePower")
 
-class BatteryManager:
+class Battery_manager:
     supported_inverters = (SMA_StorageBoy) # add supported_inverters here
     def __init__(self, inverters:list=[]) -> None:
         self._inverters = []

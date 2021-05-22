@@ -1,4 +1,4 @@
-from SMA_StorageBoy import SMA_StorageBoy, BatteryManager
+from SMA_StorageBoy import SMA_StorageBoy, Battery_manager
 
 sma_StorageBoy = SMA_StorageBoy("192.168.178.113")
 print("power: {}".format(sma_StorageBoy.power))
@@ -24,5 +24,5 @@ print("nomCapacity: {}".format(sma_StorageBoy.nomCapacity))
 print("maxChargePower: {}".format(sma_StorageBoy.maxChargePower))
 print("maxDischargePower: {}".format(sma_StorageBoy.maxDischargePower))
 
-battery_manager = BatteryManager(inverters=[sma_StorageBoy])
+battery_manager = Battery_manager(inverters=[sma_StorageBoy])
 print("soc: "+str(battery_manager.soc))
