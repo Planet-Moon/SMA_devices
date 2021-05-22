@@ -31,6 +31,9 @@ class SMA_StorageBoy(SMA_device):
         self.newRegister("UntereGrenzeTiefenendladungVorAbschaltung", address=40719, length=2, signed=False, type_="int", unit="")
         self.newRegister("MinimaleBreiteTiefenEntladeschutz", address=40721, length=2, signed=False, type_="int", unit="")
         self.newRegister("BreiteErhaltungBatterieladezustand", address=40725, length=2, signed=False, type_="int", unit=" %")
+        self.newRegister("nomCapacity", address=40187, length=2, signed=False, type_="int", unit=" Wh")
+        self.newRegister("maxChargePower", address=40189, length=2, signed=False, type_="int", unit=" W")
+        self.newRegister("maxDischargePower", address=40191, length=2, signed=False, type_="int", unit=" W")
         pass
 
     def reboot(self):
@@ -131,3 +134,15 @@ class SMA_StorageBoy(SMA_device):
     @property
     def BreiteErhaltungBatterieladezustand(self):
         return self.get_data("BreiteErhaltungBatterieladezustand")
+
+    @property
+    def nomCapacity(self):
+        return self.get_data("nomCapacity")
+
+    @property
+    def maxChargePower(self):
+        return self.get_data("maxChargePower")
+
+    @property
+    def maxDischargePower(self):
+        return self.get_data("maxDischargePower")
