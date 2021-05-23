@@ -59,6 +59,11 @@ class SMA_device(modbus_device):
         self.read_all()
         pass
 
+    def reboot(self):
+        self.newRegister("reboot", address=40077, length=2, signed=False, type_="int", unit="")
+        self.write_register("reboot", 1146)
+        self.removeRegister("reboot")
+
     def get_data(self, dataName):
         if dataName == "all":
             return self.read_all()

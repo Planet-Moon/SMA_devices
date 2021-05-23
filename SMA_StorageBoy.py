@@ -42,11 +42,6 @@ class SMA_StorageBoy(SMA_device):
         self.newRegister("maxDischargePower", address=40191, length=2, signed=False, type_="int", unit=" W")
         pass
 
-    def reboot(self):
-        self.newRegister("reboot", address=40077, length=2, signed=False, type_="int", unit="")
-        self.write_register("reboot", 1146)
-        self.removeRegister("reboot")
-
     def read_all(self):
         data = self.modbus_read_all(self)
         interString = []

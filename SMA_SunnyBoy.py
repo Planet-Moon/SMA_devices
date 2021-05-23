@@ -17,11 +17,6 @@ class SMA_SunnyBoy(SMA_device):
         # self.modbus.read_all()
         pass
 
-    def reboot(self):
-        self.newRegister("reboot", address=40077, length=2, signed=False, type_="int", unit="")
-        self.write_register("reboot", 1146)
-        self.removeRegister("reboot")
-
     def get_deltaPower(self):
         value = self.modbus.read_value("LeistungEinspeisung") - self.modbus.read_value("LeistungBezug")
         string = "Delta: {}{}".format(value, self.modbus.register["LeistungEinspeisung"].unit)
