@@ -204,6 +204,12 @@ class Battery_manager:
             if i.device.AktuellerBatterieladezustand > 85:
                 i.needed_power = 0
                 i.available_power = i.device.maxDischargePower
+
+            # Initialisation
+            if i.needed_power == 0 and i.available_power == 0:
+                i.needed_power = 0
+                i.available_power = i.device.maxDischargePower
+
             needed_power += i.needed_power
             available_power += i.available_power
         if needed_power > 0:
