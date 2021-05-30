@@ -21,14 +21,14 @@ class SMA_StorageBoy(SMA_device):
         self.newRegister("ZählerstandBezugszähler", address=30581, length=2, signed=False, type_="float", unit=" Wh")
         self.newRegister("ZählerstandEinspeisezähler", address=30583, length=2, signed=False, type_="float", unit=" Wh")
         self.newRegister("Batteriestrom", address=30843, length=2, signed=True, type_="float", unit=" A")
-        self.newRegister("AktuellerBatterieladezustand", address=30845, length=2, signed=False, type_="float", unit=" %")
+        self.newRegister("soc", address=30845, length=2, signed=False, type_="float", unit=" %")
         self.newRegister("AktuelleBatteriekapazitaet", address=30847, length=2, signed=False, type_="float", unit=" %")
         self.newRegister("Batterietemperatur", address=30849, length=2, signed=True, factor=0.1, type_="float", unit=" °C")
         self.newRegister("Batteriespannung", address=30851, length=2, signed=False, factor=0.01, type_="float", unit=" V")
         self.newRegister("MomentaneBatterieladung", address=31393, length=2, signed=False, type_="float", unit=" W")
         self.newRegister("MomentaneBatterieentladung", address=31395, length=2, signed=False, type_="float", unit=" W")
-        self.newRegister("Batterieladung", address=31397, length=4, signed=False, type_="float", unit=" Wh")
-        self.newRegister("Batterieentladung", address=31401, length=4, signed=False, type_="float", unit=" Wh")
+        self.newRegister("present_charge", address=31397, length=4, signed=False, type_="float", unit=" Wh")
+        self.newRegister("present_discharge", address=31401, length=4, signed=False, type_="float", unit=" Wh")
         self.newRegister("UntereEntladegrenzeBeiEigenverbrauch", address=40073, length=2, signed=False, type_="int", unit="")
         self.newRegister("BatterieStatus", address=34659, length=2, signed=False, type_="int", unit="")
         self.newRegister("BatterieZustand", address=31391, length=2, signed=False, type_="int", unit="")
@@ -101,8 +101,8 @@ class SMA_StorageBoy(SMA_device):
         return self.get_data("Batteriestrom")
 
     @property
-    def AktuellerBatterieladezustand(self):
-        return self.get_data("AktuellerBatterieladezustand")
+    def soc(self):
+        return self.get_data("soc")
 
     @property
     def AktuelleBatteriekapazitaet(self):
@@ -125,12 +125,12 @@ class SMA_StorageBoy(SMA_device):
         return self.get_data("MomentaneBatterieentladung")
 
     @property
-    def Batterieladung(self):
-        return self.get_data("Batterieladung")
+    def present_charge(self):
+        return self.get_data("present_charge")
 
     @property
-    def Batterieentladung(self):
-        return self.get_data("Batterieentladung")
+    def present_discharge(self):
+        return self.get_data("present_discharge")
 
     @property
     def BreiteErhaltungBatterieladezustand(self):
@@ -198,10 +198,10 @@ class Battery_manager:
         needed_power = 0
         available_power = 0
         for i in self._inverters:
-            if i.device.AktuellerBatterieladezustand < 65:
+            if i.device.soc < 65:
                 i.needed_power = i.device.maxChargePower
                 i.available_power = 0
-            if i.device.AktuellerBatterieladezustand > 85:
+            if i.device.soc > 85:
                 i.needed_power = 0
                 i.available_power = i.device.maxDischargePower
 
@@ -226,7 +226,7 @@ class Battery_manager:
         """
         _soc = 0
         for i in self._inverters:
-            _soc += i.device.AktuellerBatterieladezustand
+            _soc += i.device.soc
         return _soc/len(self._inverters)
 
     @property
@@ -238,7 +238,7 @@ class Battery_manager:
         """
         _present_discharge = 0
         for i in self._inverters:
-            _present_discharge += i.device.Batterieentladung
+            _present_discharge += i.device.present_discharge
         return _present_discharge
 
     @property
@@ -250,7 +250,7 @@ class Battery_manager:
         """
         _present_charge = 0
         for i in self._inverters:
-            _present_charge += i.device.Batterieladung  # ! BUG
+            _present_charge += i.device.present_charge  # ! BUG
         return _present_charge
 
     @property
@@ -262,7 +262,7 @@ class Battery_manager:
         """
         _charge = 0
         for i in self._inverters:
-            _charge += i.device.Batterieladung # ! BUG
+            _charge += i.device.present_charge # ! BUG
         return _charge
 
     @property
@@ -286,5 +286,5 @@ class Battery_manager:
         """
         _charge_missing = 0
         for i in self._inverters:
-            _charge_missing += i.device.nomCapacity - i.device.Batterieladung  # ! BUG
+            _charge_missing += i.device.nomCapacity - i.device.present_charge  # ! BUG
         return _charge_missing
