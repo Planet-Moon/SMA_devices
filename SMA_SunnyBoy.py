@@ -1,25 +1,38 @@
 from SMA_device import SMA_device
+from PowerSource import PowerSource
 
-class SMA_SunnyBoy(SMA_device):
-    def __init__(self, ipAddress:str):
-        super().__init__(ipAddress)
+
+class SMA_SunnyBoy(SMA_device, PowerSource):
+    def __init__(self, ipAddress: str, name: str):
+        PowerSource.__init__(self, name) # needs to be called first since power is will get redefined
+        SMA_device.__init__(self, ipAddress=ipAddress)
         self._add_Modbus_registers()
 
     def _add_Modbus_registers(self):
-        self.newRegister("power", address=30775, length=2, signed=True, type_="float", unit=" W")
-        self.newRegister("dcwatt", address=30773, length=2, signed=True, type_="float", unit=" W")
-        self.newRegister("todayEnergy", address=30535, length=2, type_="float", unit=" Wh")
-        self.newRegister("LeistungEinspeisung", address=30867, length=2, signed=True, type_="float", unit=" W")
-        self.newRegister("LeistungBezug", address=30865, length=2, signed=True, type_="float", unit=" W")
-        self.newRegister("GesamtErtrag", address=30513, length=4, signed=False, type_="float", unit=" Wh")
-        self.newRegister("ZählerstandBezugszähler", address=30581, length=2, signed=False, type_="float", unit=" Wh")
-        self.newRegister("ZählerstandEinspeisezähler", address=30583, length=2, signed=False, type_="float", unit=" Wh")
+        self.newRegister("power", address=30775, length=2,
+                         signed=True, type_="float", unit=" W")
+        self.newRegister("dcwatt", address=30773, length=2,
+                         signed=True, type_="float", unit=" W")
+        self.newRegister("todayEnergy", address=30535,
+                         length=2, type_="float", unit=" Wh")
+        self.newRegister("LeistungEinspeisung", address=30867,
+                         length=2, signed=True, type_="float", unit=" W")
+        self.newRegister("LeistungBezug", address=30865,
+                         length=2, signed=True, type_="float", unit=" W")
+        self.newRegister("GesamtErtrag", address=30513, length=4,
+                         signed=False, type_="float", unit=" Wh")
+        self.newRegister("ZählerstandBezugszähler", address=30581,
+                         length=2, signed=False, type_="float", unit=" Wh")
+        self.newRegister("ZählerstandEinspeisezähler", address=30583,
+                         length=2, signed=False, type_="float", unit=" Wh")
         # self.modbus.read_all()
         pass
 
     def get_deltaPower(self):
-        value = self.modbus.read_value("LeistungEinspeisung") - self.modbus.read_value("LeistungBezug")
-        string = "Delta: {}{}".format(value, self.modbus.register["LeistungEinspeisung"].unit)
+        value = self.modbus.read_value(
+            "LeistungEinspeisung") - self.modbus.read_value("LeistungBezug")
+        string = "Delta: {}{}".format(
+            value, self.modbus.register["LeistungEinspeisung"].unit)
         return string
 
     def read_all(self):
