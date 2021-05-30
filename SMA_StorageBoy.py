@@ -205,7 +205,7 @@ class Battery_manager:
                 i.needed_power = 0
                 i.available_power = i.device.maxDischargePower
 
-            # Initialisation
+            # Initialization
             if i.needed_power == 0 and i.available_power == 0:
                 i.needed_power = 0
                 i.available_power = i.device.maxDischargePower
