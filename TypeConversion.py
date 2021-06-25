@@ -1,4 +1,5 @@
 from math import floor
+import copy
 
 def list_to_number(number, length=2, signed=False): #little endian
     """Convert list of integers to a single integer
@@ -40,16 +41,13 @@ def number_to_wordList(number, signed=False, size=1):
     Returns:
         list: List of 16-bit integers representing the input number
     """
-    numberInternal = number
-    needBytes = 0
-    testValue = 0
-    returnList = [0] * size
-    while testValue < number:
-        needBytes += 1
-        testValue = 2**(16*needBytes)
-        appendValue = round(numberInternal % (2**16))
-        returnList[needBytes-1] = appendValue
-        numberInternal = int(numberInternal / (2**16))
+    numberInternal = copy.copy(number)
+    returnList = []
+    zwei_hoch_16 = (2**16)
+    while numberInternal:
+        appendValue = round(numberInternal % zwei_hoch_16)
+        returnList.append(appendValue)
+        numberInternal = int(numberInternal / zwei_hoch_16)
         pass
     returnList = list(reversed(returnList))
     return returnList
@@ -59,6 +57,7 @@ def main():
     print("testList:"+str(testList))
     testNumber = list_to_number(testList, signed=True)
     print("testNumber:"+str(testNumber))
+    testNumber = 4295163912
     testList = number_to_wordList(testNumber, signed=True, size=len(testList))
     print("testList:"+str(testList))
 
