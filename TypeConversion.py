@@ -42,6 +42,8 @@ def number_to_wordList(number, signed=False, size=1):
         list: List of 16-bit integers representing the input number
     """
     numberInternal = copy.copy(number)
+    if numberInternal == 0:
+        return [0]*size
     returnList = []
     zwei_hoch_16 = (2**16)
     while numberInternal:
@@ -60,6 +62,19 @@ def main():
     testNumber = 4295163912
     testList = number_to_wordList(testNumber, signed=True, size=len(testList))
     print("testList:"+str(testList))
+    zero_check = number_to_wordList(0, signed=True, size=5)
+    print("zero_check:"+str(zero_check))
+
+    negative_number = -2560
+    negative_test = number_to_wordList(negative_number, signed=True, size=1)
+    print("negative_test:"+str(negative_test))
+    negative_test_res = list_to_number(negative_test, signed=True)
+    print("negative_test_res:"+str(negative_test_res))
+    if(negative_number == negative_test_res):
+        print("\tzero test Ok")
+    else:
+        print("\tzero test failed")
+    pass
 
 
 if __name__ == "__main__":
