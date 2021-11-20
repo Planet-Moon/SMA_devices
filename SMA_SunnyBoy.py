@@ -25,14 +25,14 @@ class SMA_SunnyBoy(SMA_device, PowerSource):
                          length=2, signed=False, type_="float", unit=" Wh")
         self.newRegister("ZählerstandEinspeisezähler", address=30583,
                          length=2, signed=False, type_="float", unit=" Wh")
-        # self.modbus.read_all()
+        # self.read_all()
         pass
 
     def get_deltaPower(self):
-        value = self.modbus.read_value(
-            "LeistungEinspeisung") - self.modbus.read_value("LeistungBezug")
+        value = self.read_value(
+            "LeistungEinspeisung") - self.read_value("LeistungBezug")
         string = "Delta: {}{}".format(
-            value, self.modbus.register["LeistungEinspeisung"].unit)
+            value, self.registers["LeistungEinspeisung"].unit)
         return string
 
     def read_all(self):

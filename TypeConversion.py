@@ -1,7 +1,7 @@
 from math import floor
 import copy
 
-def list_to_number(number, length=2, signed=False): #little endian
+def list_to_number(number:list[int], length:int=2, signed:bool=False) -> int: #little endian
     """Convert list of integers to a single integer
 
     Args:
@@ -30,7 +30,7 @@ def list_to_number(number, length=2, signed=False): #little endian
             signed_Number = unsigned_number & ~mask
         return signed_Number
 
-def number_to_wordList(number, signed=False, size=1):
+def number_to_wordList(number:int, signed:bool=False, size:int=1) -> list[int]:
     """Convert list to a wordlist. Splits a integer into multiple 16-bit integers.
 
     Args:

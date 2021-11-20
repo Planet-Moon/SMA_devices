@@ -1,29 +1,29 @@
 from datetime import datetime
-from Modbus import modbus_device
+from Modbus import Modbus_device
 import TypeConversion as TC
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-class SMA_device(modbus_device):
-    def __init__(self, ipAddress: str, port: str = ""):
+class SMA_device(Modbus_device):
+    def __init__(self, ipAddress: str, port: str = "502"):
         """Generic SMA inverter class
 
         Args:
             ipAddress (str): ipAddress for TCP Modbus
             port (str, optional): port. Defaults to 502.
         """
-        self.serialnumber = 0
-        self.susyID = 0
-        self.UnitID = 1
-        self.Model = 0
-        self.timeZone = 0
-        self.error = 0
-        self.ipAddress = ipAddress
-        self.port = port
+        self.serialnumber:int = 0
+        self.susyID:int = 0
+        self.UnitID:int = 1
+        self.Model:int = 0
+        self.timeZone:int = 0
+        self.error:int = 0
+        self.ipAddress:str = ipAddress
+        self.port:str = port
         super(SMA_device, self).__init__(ipAddress, port)
-        self.modbus_read_all = modbus_device.read_all
+        self.modbus_read_all = Modbus_device.read_all
         self._Init_Modbus_Registers()
 
         try:
